@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TTVN OPTIMIZE</title>
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TTVN OPTIMIZE" />
+  <style>
+    :root{
+      --bg:#050505;--line:rgba(255,255,255,.08);--text:#fff;--muted:#a3a3a3;
+      --green:#4ade80;--amber:#fbbf24;--purple:#c084fc;--sky:#38bdf8;--danger:#fb7185;
+    }
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top,#1a1a1a,#000 55%)}
+    .container{max-width:1200px;margin:0 auto;padding:24px}.card{border:1px solid var(--line);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);border-radius:32px;box-shadow:0 20px 50px rgba(0,0,0,.4);overflow:hidden}
+    .hero{padding:28px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#090909,#111,#090909)} .hero h1{margin:12px 0 0;font-size:44px;font-weight:900;letter-spacing:.04em}
+    .sub{color:var(--muted);line-height:1.6}.badge{display:inline-flex;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;border:1px solid rgba(74,222,128,.18);background:rgba(74,222,128,.1);color:#c7f9d9}
+    .content{padding:24px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}.panel{border:1px solid var(--line);background:rgba(0,0,0,.25);border-radius:26px;padding:18px}.panel h2{margin:0;font-size:22px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}.space{height:16px}.muted{color:var(--muted)}.small{font-size:13px}
+    input[type="text"],input[type="color"]{width:100%;height:54px;border-radius:18px;border:1px solid var(--line);background:rgba(0,0,0,.34);color:#fff;padding:0 16px;outline:none} input[type="range"]{width:100%}
+    button,a.btn{appearance:none;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 16px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;font-weight:700;transition:.18s ease}
+    button:hover,a.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.1)} .btn-green{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.25);color:#d6ffe5}.btn-amber{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.22);color:#ffe7a6}.btn-purple{background:rgba(192,132,252,.12);border-color:rgba(192,132,252,.22);color:#f0ddff}.btn-sky{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.22);color:#d9f3ff}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap}.tab.active{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.25);color:#d6ffe5}.hidden{display:none!important}
+    .login-wrap{max-width:680px;margin:48px auto}.status{margin-top:14px;padding:14px 16px;border-radius:18px;border:1px solid var(--line);background:rgba(0,0,0,.2);color:#d4d4d4}
+    .msg{margin-top:14px;padding:12px 14px;border-radius:18px;display:inline-flex}.msg.ok{border:1px solid rgba(74,222,128,.22);background:rgba(74,222,128,.1);color:#d6ffe5}.msg.err{border:1px solid rgba(251,113,133,.22);background:rgba(251,113,133,.1);color:#ffd5dd}
+    .preview{position:relative;height:280px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),radial-gradient(circle at center,#111 0,#090909 68%);background-size:28px 28px,28px 28px,auto}
+    .preview::before{content:"";position:absolute;inset:0 auto 0 50%;width:1px;background:rgba(255,255,255,.08);transform:translateX(-50%)} .preview::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.08);transform:translateY(-50%)}
+    .crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);color:#86efac;opacity:.9;transition:.2s ease;pointer-events:none}
+    .classic::before,.classic::after,.plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;background:currentColor;border-radius:999px;box-shadow:0 0 14px currentColor;transform:translate(-50%,-50%)} .classic::before,.plus::before{width:2px;height:42px}.classic::after,.plus::after{width:42px;height:2px}
+    .classic .mid{position:absolute;left:50%;top:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);border:1px solid currentColor;background:rgba(255,255,255,.12)} .dot{width:12px;height:12px;border-radius:50%;background:currentColor;box-shadow:0 0 18px currentColor}
+    .circle{width:42px;height:42px;border-radius:50%;border:2px solid currentColor;box-shadow:0 0 16px currentColor;position:relative}.circle::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:currentColor;transform:translate(-50%,-50%)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:10px}.bar > div{height:100%;border-radius:999px;background:linear-gradient(90deg,#4ade80,#bef264,#fbbf24);width:0;transition:width .55s ease}
+    .checks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check{display:flex;align-items:center;gap:10px;padding:14px;border-radius:18px;border:1px solid var(--line);background:rgba(0,0,0,.3);cursor:pointer;transition:.18s ease}.check.active{border-color:rgba(74,222,128,.25);background:rgba(74,222,128,.1);color:#d6ffe5}
+    .box{width:20px;height:20px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;background:rgba(255,255,255,.03)} .check.active .box{color:#d6ffe5;border-color:rgba(74,222,128,.25);background:rgba(74,222,128,.16)}
+    .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.cards4 .panel h3{margin:0}.cards4 .pulsebar{margin-top:14px;height:10px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}.cards4 .pulsebar div{height:100%;border-radius:999px;background:linear-gradient(90deg,#4ade80,#bef264,#fbbf24);animation:flow 2.4s ease-in-out infinite alternate}
+    @keyframes flow{0%{width:20%}50%{width:85%}100%{width:65%}} .boost{display:flex;align-items:center;justify-content:center;height:280px;border-radius:28px;border:1px solid var(--line);background:radial-gradient(circle at center,rgba(74,222,128,.12),transparent 35%),#090909}
+    .orb{width:170px;height:170px;border-radius:50%;border:1px solid rgba(74,222,128,.25);background:rgba(74,222,128,.1);display:flex;align-items:center;justify-content:center;box-shadow:0 0 80px rgba(74,222,128,.15);animation:pulse 2.1s ease-in-out infinite;position:relative;text-align:center}
+    .orb::before{content:"";position:absolute;width:96px;height:96px;border-radius:50%;border:1px solid rgba(134,239,172,.35);animation:pulse2 2.1s ease-in-out infinite} @keyframes pulse{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.08);opacity:1}} @keyframes pulse2{0%,100%{transform:scale(.8)}50%{transform:scale(1.15)}}
+    .overlay{position:fixed;inset:0;z-index:999;pointer-events:none}.overlay .crosshair{position:fixed}
+    @media (max-width:980px){.grid,.cards4,.stats{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.hero h1{font-size:36px}}
+  </style>
+</head>
+<body>
+  <audio id="loginAudio" src="welcome.mp3" preload="auto" loop></audio>
+  <div class="container">
+    <div id="loginView" class="card login-wrap">
+      <div class="hero" style="text-align:center">
+        <div class="badge">Optimize Access</div>
+        <h1>TTVN OPTIMIZE</h1>
+        <p class="sub" style="max-width:520px;margin:12px auto 0">Nhập key để mở giao diện cấu hình và tâm demo ở giữa màn hình.</p>
+      </div>
+      <div class="content">
+        <label class="small muted">Log key</label>
+        <div class="row" style="margin-top:12px">
+          <div style="flex:1 1 360px"><input id="keyInput" type="text" placeholder="Nhập key để mở"></div>
+          <button id="loginBtn" class="btn-green">Log in</button>
+        </div>
+        <div id="loginError" class="msg err hidden"></div>
+        <div class="status">Key đúng sẽ mở panel chỉnh tâm demo, lưu cấu hình và mở Free Fire.</div>
+        <div class="panel" style="margin-top:16px">
+          <div class="row" style="justify-content:space-between;align-items:center"><span>Nhạc login</span><button id="musicToggle" class="btn-purple">Bật</button></div>
+          <div class="space"></div>
+          <div class="small muted">Âm lượng <span id="volumeLabel" style="float:right">60%</span></div>
+          <input id="volumeRange" type="range" min="0" max="100" value="60">
+        </div>
+      </div>
+    </div>
+    <div id="appView" class="card hidden">
+      <div class="hero">
+        <div class="row" style="justify-content:space-between;align-items:flex-end">
+          <div style="flex:1 1 420px">
+            <div class="badge">Unlocked</div>
+            <h1>TTVN OPTIMIZE</h1>
+            <p class="sub" style="margin-top:12px">Panel mượt hơn, gọn hơn, có tâm demo giữa màn hình trong web app và nút lưu nhanh.</p>
+          </div>
+          <div class="row">
+            <button id="musicToggleApp" class="btn-purple">Bật nhạc</button>
+            <button id="saveBtn">Lưu</button>
+            <button id="cleanBtn" class="btn-sky">Clear cache demo</button>
+            <button id="overlayBtn" class="btn-amber">Bật tâm demo</button>
+            <button id="openFFBtn" class="btn-green">Mở FF</button>
+          </div>
+        </div>
+        <div id="saveMsg" class="msg ok hidden"></div>
+        <div id="cleanWrap" class="panel hidden" style="margin-top:14px">
+          <div class="row" style="justify-content:space-between"><span>Clear cache demo</span><span id="cleanPercent">0%</span></div>
+          <div class="bar"><div id="cleanFill" style="width:0%"></div></div>
+        </div>
+        <div id="launchMode" class="status">Giữ tâm đã lưu khi mở FF</div>
+      </div>
+      <div class="content">
+        <div class="tabs">
+          <button class="tab active" data-tab="crosshair">Tâm demo</button>
+          <button class="tab" data-tab="optimize">Trang tối ưu</button>
+        </div>
+        <div class="space"></div>
+        <div id="crosshairTab" class="grid">
+          <div class="panel">
+            <div class="row" style="justify-content:space-between;align-items:center"><h2>Tâm demo giữa màn hình</h2><span class="small muted">Web app only</span></div>
+            <div class="row" style="margin-top:14px">
+              <button class="styleBtn btn-green" data-style="classic">Classic</button>
+              <button class="styleBtn" data-style="dot">Dot</button>
+              <button class="styleBtn" data-style="circle">Circle</button>
+              <button class="styleBtn" data-style="plus">Plus</button>
+            </div>
+            <div class="space"></div>
+            <div class="preview"><div id="crosshairPreview" class="crosshair classic"><div class="mid"></div></div></div>
+          </div>
+          <div>
+            <div class="panel">
+              <h2>Chỉnh tâm demo</h2>
+              <div class="space"></div>
+              <div class="small muted">Kích thước <span id="sizeLabel" style="float:right">18</span></div>
+              <input id="sizeRange" type="range" min="10" max="32" value="18">
+              <div class="space"></div>
+              <div class="small muted">Độ mờ <span id="opacityLabel" style="float:right">90%</span></div>
+              <input id="opacityRange" type="range" min="20" max="100" value="90">
+              <div class="space"></div>
+              <div class="small muted">Màu tâm</div>
+              <input id="colorInput" type="color" value="#86efac">
+            </div>
+            <div class="space"></div>
+            <div class="panel">
+              <h2>Link bio</h2>
+              <div class="space"></div>
+              <input id="bioInput" type="text" value="https://ttvn231.github.io/TTVNSTORE/">
+              <div class="space"></div>
+              <a id="bioOpen" class="btn btn-green" target="_blank" href="https://ttvn231.github.io/TTVNSTORE/">Mở link bio</a>
+            </div>
+          </div>
+        </div>
+        <div id="optimizeTab" class="hidden">
+          <div class="panel">
+            <div class="row" style="justify-content:space-between;align-items:flex-end">
+              <div style="flex:1 1 460px">
+                <div class="badge">Optimize Mode</div>
+                <h2 style="font-size:40px;margin-top:16px">Trang tối ưu nâng cấp</h2>
+                <p class="sub" style="margin-top:12px">Thêm monitor RAM, CPU, GPU và trạng thái tick để giống giao diện optimize cao cấp hơn.</p>
+              </div>
+              <div class="panel" style="min-width:180px;background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.22)">
+                <div class="small muted">System</div><div style="font-size:32px;font-weight:900;margin-top:6px">STABLE</div>
+              </div>
+            </div>
+          </div>
+          <div class="space"></div>
+          <div class="cards4">
+            <div class="panel"><h3>Fix rung tâm</h3><p class="sub small" style="margin-top:10px">Giao diện preset tối ưu hiển thị mượt, ưu tiên cảm giác ổn định.</p><div class="pulsebar"><div></div></div></div>
+            <div class="panel"><h3>Boost touch</h3><p class="sub small" style="margin-top:10px">Panel hiển thị kiểu phản hồi nhanh, glow nhẹ và cảm giác mượt hơn.</p><div class="pulsebar"><div></div></div></div>
+            <div class="panel"><h3>Nhẹ máy</h3><p class="sub small" style="margin-top:10px">Ưu tiên giảm tải hiệu ứng và giữ bố cục gọn khi sử dụng lâu.</p><div class="pulsebar"><div></div></div></div>
+            <div class="panel"><h3>Combat mode</h3><p class="sub small" style="margin-top:10px">Kiểu hiển thị mạnh, đậm, hợp với phong cách optimize panel.</p><div class="pulsebar"><div></div></div></div>
+          </div>
+          <div class="space"></div>
+          <div class="grid">
+            <div class="panel">
+              <h2>Hiệu ứng phản hồi</h2>
+              <div class="space"></div>
+              <div class="boost"><div class="orb"><div><div class="small muted" style="letter-spacing:.25em;text-transform:uppercase">Realtime</div><div style="font-size:34px;font-weight:900;margin-top:8px">BOOST</div></div></div></div>
+            </div>
+            <div class="panel">
+              <h2>Monitor hệ thống</h2>
+              <div class="space"></div>
+              <div class="stats">
+                <div><div class="small muted">RAM <span id="ramVal" style="float:right">68%</span></div><div class="bar"><div id="ramFill"></div></div></div>
+                <div><div class="small muted">CPU <span id="cpuVal" style="float:right">42%</span></div><div class="bar"><div id="cpuFill"></div></div></div>
+                <div><div class="small muted">GPU <span id="gpuVal" style="float:right">57%</span></div><div class="bar"><div id="gpuFill"></div></div></div>
+              </div>
+              <div class="space"></div>
+              <div class="row" style="justify-content:space-between;align-items:center"><h2>Optimize tick</h2><span id="activeCount" class="small muted">0/6 ACTIVE</span></div>
+              <div class="space"></div>
+              <div class="checks">
+                <div class="check" data-check="Fix rung tâm"><div class="box">✓</div><span>Fix rung tâm</span></div>
+                <div class="check" data-check="Boost touch"><div class="box">✓</div><span>Boost touch</span></div>
+                <div class="check" data-check="Nhẹ máy"><div class="box">✓</div><span>Nhẹ máy</span></div>
+                <div class="check" data-check="Combat mode"><div class="box">✓</div><span>Combat mode</span></div>
+                <div class="check" data-check="Stable render"><div class="box">✓</div><span>Stable render</span></div>
+                <div class="check" data-check="Touch sync"><div class="box">✓</div><span>Touch sync</span></div>
+              </div>
+              <div class="space"></div>
+              <div class="panel" style="padding:14px">
+                <div class="small muted">Link bio</div>
+                <div class="space"></div>
+                <input id="bioInput2" type="text" value="https://ttvn231.github.io/TTVNSTORE/">
+                <div class="space"></div>
+                <a id="bioOpen2" class="btn btn-green" target="_blank" href="https://ttvn231.github.io/TTVNSTORE/">Mở link bio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="overlay" class="overlay hidden"><div id="crosshairOverlay" class="crosshair classic"><div class="mid"></div></div></div>
+    </div>
+  </div>
+  <script>
+    const VALID_KEY="TTVN-BRUTAL-BZCJWWOS", STORAGE_KEY="ttvn-optimize-state";
+    const state={inputKey:"",isLoggedIn:false,crosshairStyle:"classic",crosshairSize:18,crosshairOpacity:90,crosshairColor:"#86efac",bioLink:"https://ttvn231.github.io/TTVNSTORE/",activeChecks:[],volume:60,musicOn:false,showOverlay:false};
+    const el={loginView:document.getElementById("loginView"),appView:document.getElementById("appView"),keyInput:document.getElementById("keyInput"),loginBtn:document.getElementById("loginBtn"),loginError:document.getElementById("loginError"),saveBtn:document.getElementById("saveBtn"),cleanBtn:document.getElementById("cleanBtn"),overlayBtn:document.getElementById("overlayBtn"),openFFBtn:document.getElementById("openFFBtn"),saveMsg:document.getElementById("saveMsg"),cleanWrap:document.getElementById("cleanWrap"),cleanPercent:document.getElementById("cleanPercent"),cleanFill:document.getElementById("cleanFill"),launchMode:document.getElementById("launchMode"),volumeRange:document.getElementById("volumeRange"),volumeLabel:document.getElementById("volumeLabel"),musicToggle:document.getElementById("musicToggle"),musicToggleApp:document.getElementById("musicToggleApp"),audio:document.getElementById("loginAudio"),sizeRange:document.getElementById("sizeRange"),sizeLabel:document.getElementById("sizeLabel"),opacityRange:document.getElementById("opacityRange"),opacityLabel:document.getElementById("opacityLabel"),colorInput:document.getElementById("colorInput"),bioInput:document.getElementById("bioInput"),bioOpen:document.getElementById("bioOpen"),bioInput2:document.getElementById("bioInput2"),bioOpen2:document.getElementById("bioOpen2"),crosshairPreview:document.getElementById("crosshairPreview"),crosshairOverlay:document.getElementById("crosshairOverlay"),overlay:document.getElementById("overlay"),ramVal:document.getElementById("ramVal"),cpuVal:document.getElementById("cpuVal"),gpuVal:document.getElementById("gpuVal"),ramFill:document.getElementById("ramFill"),cpuFill:document.getElementById("cpuFill"),gpuFill:document.getElementById("gpuFill"),activeCount:document.getElementById("activeCount")};
+    function saveState(showMsg=false){localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); if(showMsg){el.saveMsg.textContent="Đã lưu";el.saveMsg.className="msg ok";el.saveMsg.classList.remove("hidden");setTimeout(()=>el.saveMsg.classList.add("hidden"),1800)}}
+    function loadState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;Object.assign(state, JSON.parse(raw))}catch(e){}}
+    function setCrosshairNode(node){node.className="crosshair "+state.crosshairStyle;node.style.color=state.crosshairColor;node.style.opacity=String(state.crosshairOpacity/100);node.style.transform="translate(-50%,-50%) scale("+(state.crosshairSize/18)+")";if(state.crosshairStyle==="dot"){node.innerHTML='<div class="dot"></div>'}else if(state.crosshairStyle==="circle"){node.innerHTML='<div class="circle"></div>'}else if(state.crosshairStyle==="plus"){node.innerHTML=""}else{node.innerHTML='<div class="mid"></div>'}}
+    function render(){el.loginView.classList.toggle("hidden",state.isLoggedIn);el.appView.classList.toggle("hidden",!state.isLoggedIn);el.keyInput.value=state.inputKey;el.volumeRange.value=state.volume;el.volumeLabel.textContent=state.volume+"%";el.sizeRange.value=state.crosshairSize;el.sizeLabel.textContent=state.crosshairSize;el.opacityRange.value=state.crosshairOpacity;el.opacityLabel.textContent=state.crosshairOpacity+"%";el.colorInput.value=state.crosshairColor;el.bioInput.value=state.bioLink;el.bioInput2.value=state.bioLink;el.bioOpen.href=state.bioLink;el.bioOpen2.href=state.bioLink;el.musicToggle.textContent=state.musicOn?"Tắt":"Bật";el.musicToggleApp.textContent=state.musicOn?"Tắt nhạc":"Bật nhạc";el.overlayBtn.textContent=state.showOverlay?"Tắt tâm demo":"Bật tâm demo";el.overlay.classList.toggle("hidden",!state.showOverlay||!state.isLoggedIn);document.querySelectorAll(".styleBtn").forEach(btn=>btn.classList.toggle("btn-green",btn.dataset.style===state.crosshairStyle));document.querySelectorAll(".check").forEach(node=>node.classList.toggle("active",state.activeChecks.includes(node.dataset.check)));el.activeCount.textContent=state.activeChecks.length+"/6 ACTIVE";setCrosshairNode(el.crosshairPreview);setCrosshairNode(el.crosshairOverlay);el.audio.volume=state.volume/100}
+    function toggleMusic(){if(state.musicOn){el.audio.pause();state.musicOn=false}else{el.audio.volume=state.volume/100;el.audio.play().then(()=>{state.musicOn=true;render()}).catch(()=>{})}render()}
+    function login(){state.inputKey=el.keyInput.value.trim();if(state.inputKey===VALID_KEY){state.isLoggedIn=true;el.loginError.classList.add("hidden");el.audio.currentTime=0;el.audio.volume=state.volume/100;el.audio.play().then(()=>{state.musicOn=true;render()}).catch(()=>{render()});saveState()}else{state.isLoggedIn=false;state.showOverlay=false;el.loginError.textContent="Key không đúng";el.loginError.className="msg err";el.loginError.classList.remove("hidden");render()}}
+    function randomStat(min,max){return Math.round(min+Math.random()*(max-min))}
+    setInterval(()=>{const ram=Math.max(42,Math.min(92,randomStat(42,92))),cpu=Math.max(18,Math.min(88,randomStat(18,88))),gpu=Math.max(24,Math.min(95,randomStat(24,95)));el.ramVal.textContent=ram+"%";el.cpuVal.textContent=cpu+"%";el.gpuVal.textContent=gpu+"%";el.ramFill.style.width=ram+"%";el.cpuFill.style.width=cpu+"%";el.gpuFill.style.width=gpu+"%"},1800);
+    el.loginBtn.addEventListener("click",login); el.saveBtn.addEventListener("click",()=>saveState(true)); el.cleanBtn.addEventListener("click",()=>{el.cleanWrap.classList.remove("hidden");let v=0;const timer=setInterval(()=>{v+=10;el.cleanPercent.textContent=v+"%";el.cleanFill.style.width=v+"%";if(v>=100){clearInterval(timer);setTimeout(()=>{el.cleanWrap.classList.add("hidden");el.saveMsg.textContent="Đã dọn cache demo";el.saveMsg.className="msg ok";el.saveMsg.classList.remove("hidden");setTimeout(()=>el.saveMsg.classList.add("hidden"),1800)},250)}},90)});
+    el.overlayBtn.addEventListener("click",()=>{state.showOverlay=!state.showOverlay;render()}); el.openFFBtn.addEventListener("click",()=>{saveState();el.launchMode.textContent="Đã áp dụng: "+state.crosshairStyle+" / size "+state.crosshairSize+" / opacity "+state.crosshairOpacity+"%";window.location.href="freefire://";setTimeout(()=>window.open("https://ff.garena.com/","_blank"),800)});
+    el.musicToggle.addEventListener("click",toggleMusic); el.musicToggleApp.addEventListener("click",toggleMusic);
+    el.volumeRange.addEventListener("input",e=>{state.volume=Number(e.target.value);render();saveState()}); el.sizeRange.addEventListener("input",e=>{state.crosshairSize=Number(e.target.value);render()}); el.opacityRange.addEventListener("input",e=>{state.crosshairOpacity=Number(e.target.value);render()}); el.colorInput.addEventListener("input",e=>{state.crosshairColor=e.target.value;render()});
+    el.bioInput.addEventListener("input",e=>{state.bioLink=e.target.value;el.bioInput2.value=e.target.value;render()}); el.bioInput2.addEventListener("input",e=>{state.bioLink=e.target.value;el.bioInput.value=e.target.value;render()});
+    document.querySelectorAll(".styleBtn").forEach(btn=>btn.addEventListener("click",()=>{state.crosshairStyle=btn.dataset.style;render()}));
+    document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");const isCrosshair=btn.dataset.tab==="crosshair";document.getElementById("crosshairTab").classList.toggle("hidden",!isCrosshair);document.getElementById("optimizeTab").classList.toggle("hidden",isCrosshair)}));
+    document.querySelectorAll(".check").forEach(node=>node.addEventListener("click",()=>{const value=node.dataset.check;if(state.activeChecks.includes(value)){state.activeChecks=state.activeChecks.filter(v=>v!==value)}else{state.activeChecks.push(value)}render()}));
+    loadState(); render();
+  </script>
+</body>
+</html>
